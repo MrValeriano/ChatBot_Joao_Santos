@@ -25,17 +25,28 @@ def obter_resposta(texto: str) -> str:
         ('olá', 'boa tarde', 'bom dia'): 'Olá tudo bem!',
         'como estás': 'Estou bem, obrigado!',
         ('bye', 'adeus', 'tchau'): 'Gostei de falar contigo! Até breve...',
+        ('sabes fazer', 'consegues fazer'): 'Posso dizer-te a data de hoje, as horas, e mais umas quantas coisinhas :)',
+        ('tempo', 'meteorologia'): 'Está um lindo dia de sol!',
+        'horas': f'São, neste momento: {datetime.now():%H:%M}',
+        ('data', 'hoje'): f'A data de hoje é: {datetime.now():%d-%m-%Y}',
+        ('nome', 'chama'): 'O meu nome é Bot (^_^)'
     }
-
+    texto2 = ""
     for chave, resposta in respostas.items():
         if isinstance(chave, tuple):
             if comando in chave:
-                return resposta
+                texto2 += resposta + " "
+            else:
+                for i in chave:
+                    if comando.__contains__(i):
+                        texto2 += resposta + " "
         elif chave in comando:
-            return resposta
-
-    return f'Desculpa, não entendi a questão! {texto}'
-
+            texto2 += resposta + " "
+    if texto2 == "":
+        return f'Desculpa, não entendi a questão! "{texto}"'
+    else:
+        texto2 = texto2.strip()
+        return texto2
 
 def chat() -> None:
     print('Bem-vindo ao ChatBot!')
@@ -47,7 +58,7 @@ def chat() -> None:
         user_input: str = input('Tu: ')
         resposta = obter_resposta(user_input)
         print("Bot:", resposta)
-
+        
         if resposta == 'Gostei de falar contigo! Até breve...':
             break
 
