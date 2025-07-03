@@ -1,7 +1,10 @@
 import os
 from datetime import datetime
 
+name = ""
+
 def obter_resposta(texto: str) -> str:
+    global name
     comando: str = texto.lower()
 
     # if comando in ('olá', 'boa tarde', 'bom dia'):
@@ -22,14 +25,16 @@ def obter_resposta(texto: str) -> str:
     # return f'Desculpa, não entendi a questão! {texto}'
 
     respostas = {
-        ('olá', 'boa tarde', 'bom dia'): 'Olá tudo bem!',
-        'como estás': 'Estou bem, obrigado!',
+        ('olá', 'boa tarde', 'bom dia'): f'Olá tudo bem, {name}!',
+        ('como estás', 'como vais'): f'Estou bem, obrigado! E tu, {name}?',
+        ('bem', 'andando'): 'Que bom! ^_^',
+        'mal': 'Oh... Lamento Ó_Ò',
         ('bye', 'adeus', 'tchau'): 'Gostei de falar contigo! Até breve...',
-        ('sabes fazer', 'consegues fazer'): 'Posso dizer-te a data de hoje, as horas, e mais umas quantas coisinhas :)',
+        ('sabes fazer', 'consegues fazer'): 'Posso dizer-te a data de hoje, as horas, e mais umas quantas coisinhas ^_^',
         ('tempo', 'meteorologia'): 'Está um lindo dia de sol!',
         'horas': f'São, neste momento: {datetime.now():%H:%M}',
         ('data', 'hoje'): f'A data de hoje é: {datetime.now():%d-%m-%Y}',
-        ('nome', 'chama'): 'O meu nome é Bot (^_^)'
+        ('nome', 'chama'): 'O meu nome é Bot ^_^',
     }
     texto2 = ""
     for chave, resposta in respostas.items():
@@ -48,14 +53,18 @@ def obter_resposta(texto: str) -> str:
         texto2 = texto2.strip()
         return texto2
 
+def adivinhas():
+    adivinha = {}
+
 def chat() -> None:
+    global name
     print('Bem-vindo ao ChatBot!')
     print('Escreva "bye" para sair do chat')
-    name: str = input('Bot: Como te chamas?\n> ')
+    name = str(input('Bot: Como te chamas?\n> ')).strip()
     print(f'Bot: Olá, {name}!\nComo te posso ajudar?')
 
     while True:
-        user_input: str = input('Tu: ')
+        user_input: str = input('Tu: ').strip()
         resposta = obter_resposta(user_input)
         print("Bot:", resposta)
         
